@@ -1,7 +1,5 @@
-use std::clone::Clone;
-
 /// Simple queue data structure
-struct Queue<T>  {
+pub struct Queue<T>  {
     buffer: Vec<T>,
 }
 
@@ -9,25 +7,25 @@ impl <T> Queue<T> {
 
 
     /// Creates the queue empty
-    fn build() -> Queue<T> {
+    pub fn build() -> Queue<T> {
         Queue {
             buffer: Vec::new(),
         }
     }
 
     /// Returns the size of the queue
-    fn size(&self) -> usize {
+    pub fn size(&self) -> usize {
         // self.tail - self.head
         self.buffer.len()
     }
 
     /// Append an element to the queue incrementing its size
-    fn append(&mut self, x: T) -> () {
+    pub fn append(&mut self, x: T) -> () {
         self.buffer.push(x);
     }
 
     /// Reduces the size of the queue to a certain number of elements
-    fn reduce_to(&mut self, new_size: usize) -> () {
+    pub fn reduce_to(&mut self, new_size: usize) -> () {
         if new_size < self.buffer.len() {
             /*
             while self.buffer.len() > new_size {
@@ -40,11 +38,11 @@ impl <T> Queue<T> {
     }
 
     /// Returns the first element in the queue
-    fn dequeue(&mut self) -> T {
+    pub fn dequeue(&mut self) -> T {
         self.buffer.remove(0)
     }
 
-    fn is_empty(&self) -> bool {
+    pub fn is_empty(&self) -> bool {
         self.buffer.is_empty()
     }
 }

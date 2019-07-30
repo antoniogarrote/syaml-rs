@@ -1,16 +1,29 @@
 mod input_range;
 mod lexer_input;
 mod queue;
+mod lexer;
 
 pub use self::input_range::InputRange;
 pub use self::lexer_input::LexerInput;
 
-trait Token {
+pub struct Position {
+    line: isize,
+    column: isize,
+    position: isize
+}
+
+impl Position {
+    pub fn build(line: isize, column: isize, position: isize) -> Position {
+        Position { line, column, position }
+    }
+}
+
+pub trait Token {
     fn name(&self) -> &String;
     fn abbreviation(&self) -> &String;
 }
 
-struct TokenData<T : Token> {
+pub struct TokenData<T : Token> {
     token: T,
     range: InputRange,
     start: isize,

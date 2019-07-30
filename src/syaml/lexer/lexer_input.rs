@@ -3,7 +3,7 @@ pub trait LexerInput {
     const EOF_CHAR: isize = -1;
 
     /// The current code point character in the input (or LexerInput#Eof if the EoF was reached).
-    fn current(&self) -> isize;
+    fn current(&self) -> Option<char>;
 
     /// The absolute offset (0..n) of the current character.
     fn offset(&self) -> isize;
@@ -19,23 +19,24 @@ pub trait LexerInput {
 
     /// Consume and advance to the next code point.
     /// Consume n code points
-    fn consume(&self, n: Option<isize>) -> ();
+    fn consume(&self, n: Option<usize>) -> ();
 
     /// Consume while the condition holds.
-    fn consume_while<F>(&self, p: F) -> () where F: Fn(isize) -> bool {
-        while p(self.current()) {
+    fn consume_while<F>(&self, p: F) -> () where F: Fn(char) -> bool {
+        let next_char = self.current();
+        while next_char.is_some() && p(next_char.unwrap()) {
             self.consume(None)
         }
     }
 
     /// Create a mark in the Input so you can reset the input to it later
-    fn create_mark<T : Mark>(&self) -> T;
+    fn create_mark<'a>(&self) -> Mark;
 
     /// Reset the input to the specified offset
-    fn reset(&self, mark: &dyn Mark) -> ();
+    fn reset(&self, mark: Mark) -> ();
 
     /// Return the character `i` characters ahead of the current position, (or LexerInput#Eof if the EoF was reached).
-    fn look_ahead(&self, i: isize) -> isize;
+    fn look_ahead(&self, i: usize) -> char;
 
     /// Return the sub-sequence of characters between the specified positions
     // fn sub_sequence(&self, start: isize, end: isize) -> CharSequence;
@@ -47,4 +48,4 @@ pub trait LexerInput {
     fn non_eof(&self) -> bool;
 }
 
-trait Mark {}
+pub struct Mark {}
