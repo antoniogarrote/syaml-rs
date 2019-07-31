@@ -1,16 +1,12 @@
 /// Simple queue data structure
-pub struct Queue<T>  {
+pub struct Queue<T> {
     buffer: Vec<T>,
 }
 
-impl <T> Queue<T> {
-
-
+impl<T> Queue<T> {
     /// Creates the queue empty
     pub fn build() -> Queue<T> {
-        Queue {
-            buffer: Vec::new(),
-        }
+        Queue { buffer: Vec::new() }
     }
 
     /// Returns the size of the queue
@@ -34,7 +30,6 @@ impl <T> Queue<T> {
             */
             unsafe { self.buffer.set_len(new_size) }
         }
-
     }
 
     /// Returns the first element in the queue
@@ -46,7 +41,6 @@ impl <T> Queue<T> {
         self.buffer.is_empty()
     }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -79,6 +73,5 @@ mod tests {
 
         assert_eq!(q.dequeue(), 2);
         assert_eq!(q.dequeue(), 3);
-
     }
 }
